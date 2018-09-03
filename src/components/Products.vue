@@ -8,11 +8,17 @@
           :value="$store.state.selectedCategory"
           id="category_filter"
         ></v-select>
+        <input type="search" placeholder="search" v-model="searchText" v-on:change="updateProducts">
+        <label for="sort_by">Sort By</label>
+        <select name="sort_by" id="sort_by" v-on:change="updateProducts" v-model="sortBy">
+          <option value=""></option>
+          <option value="price">price</option>
+        </select>
         </div>
         <div id="product_list">
             <ProductComponent v-for="(product,index) in items" :product="product" v-bind:key="index" />
         </div>
-        <b-pagination size="md" :total-rows="totalItems" v-model="currentPage" :per-page="perPage" v-on:change="updateProducts">
+        <b-pagination size="md" :total-rows="totalItems" v-model="currentPage" :per-page="perPage" v-on:change="updatePage">
         </b-pagination>
     </div>
 </template>
@@ -27,22 +33,36 @@ export default {
       currentPage: 1,
       perPage: 6,
       totalItems: 6,
-      totalPages: 1
+      totalPages: 1,
+      searchText: null,
+      sortBy: null,
     };
   },
   methods: {
     getProducts: () => {},
-    async updateProducts(currentPage) {
+    async updatePage(currentPage){
       this.currentPage = currentPage || 1;
-      let response = await Product.page(this.currentPage)
-        .limit(this.perPage)
-        .get();
+      await this.updateProducts()
+    },
+    async updateProducts() {
+      let builder = Product.page(this.currentPage)
+       .limit(this.perPage)
+      if(this.searchText) {
+        builder = builder.where('query', this.searchText)
+      }
+      if(this.sortBy) {
+        builder = builder.orderBy(this.sortBy)
+      }
+      let response = await builder.get()
       this.items = response.data;
       this.totalPages = response.meta.total_pages;
       this.totalItems = response.meta.total;
     },
     onCategoryChange() {
       console.log("hello")
+    },
+    onCategoryChange(){
+      console.log("searching")
     }
   },
   async mounted() {
@@ -56,7 +76,7 @@ export default {
 <style>
 #product_list {
   margin: 0 auto;
-  width: 1000px;
+  width: 962px;
   box-sizing: border-box;
 }
 .filters {
@@ -71,5 +91,6 @@ export default {
 .pagination {
   margin-left: 160px;
   float: left;
+  clear: both;
 }
 </style>
