@@ -1,7 +1,7 @@
 <template>
     <div v-if="product.attributes" class="product_item">
         <!-- <span> </span>{{product.attributes.name}}</span> -->
-        <img src="https://placeimg.com/75/225/tech" class="product_image">
+        <img src="https://via.placeholder.com/350x150?text=hello" class="product_image">
         <div class="description">
           <router-link :to="{ name: 'product', params: { productId: product.id }}">
             <p class="item_name">{{product.attributes.name}}</p>
