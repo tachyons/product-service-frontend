@@ -4,11 +4,14 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import { Model } from "vue-api-query";
+import loginChecker from "./lib/loginChecker";
 
 // inject global axios instance as http client to Model
 Model.$http = axios;
 
 Vue.config.productionTip = false;
+
+router.beforeEach(loginChecker);
 
 new Vue({
   router,
