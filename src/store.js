@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import { AuthApiEndpoint } from "./globals";
 
 Vue.use(Vuex);
 
@@ -19,7 +20,7 @@ export default new Vuex.Store({
     retrieveToken(context, credentials) {
       return new Promise((resolve, reject) => {
         axios
-          .post("http://localhost:3000/sessions", {
+          .post(AuthApiEndpoint + "/sessions", {
             email: credentials.email,
             password: credentials.password
           })
