@@ -9,6 +9,14 @@ export default (to, from, next) => {
     } else {
       next();
     }
+  } else if (to.matched.some(record => record.meta.requireVisitor)) {
+    if (store.getters.loggedIn) {
+      next({
+        name: "home"
+      });
+    } else {
+      next();
+    }
   } else {
     next();
   }

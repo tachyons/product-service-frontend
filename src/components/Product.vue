@@ -6,7 +6,7 @@
           <router-link :to="{ name: 'product', params: { productId: product.id }}">
             <p class="item_name">{{product.attributes.name}}</p>
           </router-link>
-          <p class="item_price">${{product.attributes.price}}</p>
+          <p class="item_price">{{'$' + product.attributes.price.toFixed(2)}}</p>
         </div>
     </div>
 </template>
