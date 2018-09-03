@@ -4,6 +4,8 @@
         <div id="product_list">
             <ProductComponent v-for="(product,index) in items" :product="product" v-bind:key="index" />
         </div>
+        <b-pagination size="md" :total-rows="totalItems" v-model="currentPage" :per-page="10" v-on:change="updateProducts">
+        </b-pagination>
     </div>
 </template>
 <script>
@@ -13,15 +15,26 @@ export default {
   name: "Products",
   data: () => {
     return {
-      items: []
+      items: [],
+      currentPage: 1,
+      perPage: 6,
+      totalItems: 6,
+      totalPages: 1
     };
   },
   methods: {
-    getProducts: () => {}
+    getProducts: () => {},
+    async updateProducts() {
+      let response = await Product.page(this.currentPage)
+        .limit(this.perPage)
+        .get();
+      this.items = response.data;
+      this.totalPages = response.meta.total_pages;
+      this.totalItems = response.meta.total_items;
+    }
   },
   async mounted() {
-    let response = await Product.get();
-    this.items = response.data;
+    this.updateProducts();
   },
   components: {
     ProductComponent
@@ -33,5 +46,9 @@ export default {
   margin: 0 auto;
   width: 1000px;
   box-sizing: border-box;
+}
+.pagination {
+  margin-left: 160px;
+  float: left;
 }
 </style>
