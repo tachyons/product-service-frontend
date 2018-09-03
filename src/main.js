@@ -24,5 +24,6 @@ router.beforeEach(loginChecker);
 new Vue({
   router,
   store,
+  Model,
   render: h => h(App)
 }).$mount("#app");
