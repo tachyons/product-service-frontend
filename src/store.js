@@ -6,7 +6,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem("access_token") || null
+    token: localStorage.getItem("access_token") || null,
+    categoryOptions: ["sample"],
+    selectedCategory: null
   },
   mutations: {
     retrieveToken(state, token) {
@@ -28,15 +30,14 @@ export default new Vuex.Store({
             resolve(response);
           })
           .catch(error => {
-            console.log(error);
             reject(error);
           });
       });
     }
   },
   getters: {
-    loggedIn(state){
-      return state.token != null
+    loggedIn(state) {
+      return state.token != null;
     }
   }
 });

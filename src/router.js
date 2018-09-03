@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Products from "./views/Products.vue";
 import Product from "./views/Product.vue";
-import Login from "./components/Login.vue"
+import Login from "./components/Login.vue";
 
 Vue.use(Router);
 
