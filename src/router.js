@@ -1,8 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Products from "./views/Products.vue";
-import ProductPage from "./components/Product.vue";
 import Login from "./components/Login.vue";
+import Logout from "./components/Logout.vue";
+import ProductPage from "./components/Product.vue";
+import Products from "./views/Products.vue";
 
 Vue.use(Router);
 
@@ -39,6 +40,11 @@ export default new Router({
       meta: {
         requireVisitor: true
       }
+    },
+    {
+      path: "/logout",
+      name: "Logout",
+      component: Logout
     }
   ]
 });

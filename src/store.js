@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import { AuthApiEndPoint } from "./globals";
+import User from "./models/User";
 
 Vue.use(Vuex);
 
@@ -34,11 +35,17 @@ export default new Vuex.Store({
             reject(error);
           });
       });
+    },
+    logout(context) {
+      context.commit("retrieveToken", null);
     }
   },
   getters: {
     loggedIn(state) {
       return state.token != null;
+    },
+    loggedInUser(state) {
+      return User.from(state.token);
     }
   }
 });
