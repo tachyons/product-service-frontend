@@ -2,12 +2,6 @@
     <div>
         <h2>Products</h2>
         <div class="filters">
-          <v-select 
-          @input="onCategoryChange" 
-          :options="$store.state.categoryOptions"
-          :value="$store.state.selectedCategory"
-          id="category_filter"
-        ></v-select>
         <input type="search" placeholder="search" v-model="searchText" v-on:change="updateProducts">
         <label for="sort_by">Sort By</label>
         <select name="sort_by" id="sort_by" v-on:change="updateProducts" v-model="sortBy">
@@ -18,8 +12,8 @@
         <div id="product_list">
             <ProductCardComponent v-for="(product,index) in items" :product="product" v-bind:key="index" />
         </div>
-        <b-pagination size="md" :total-rows="totalItems" v-model="currentPage" :per-page="perPage" v-on:change="updatePage">
-        </b-pagination>
+        <b-pagination-nav size="md" base-url="#?page="  :number-of-pages="totalPages" v-model="currentPage" :per-page="perPage" >
+        </b-pagination-nav>
     </div>
 </template>
 <script>
@@ -27,10 +21,10 @@ import Product from "../models/Product.js";
 import ProductCardComponent from "@/components/ProductCard.vue";
 export default {
   name: "ProductListComponent",
-  data: () => {
+  data() {
     return {
       items: [],
-      currentPage: 1,
+      currentPage: Number(this.$route.query.page) || 1,
       perPage: 6,
       totalItems: 6,
       totalPages: 1,
@@ -39,11 +33,6 @@ export default {
     };
   },
   methods: {
-    getProducts: () => {},
-    async updatePage(currentPage) {
-      this.currentPage = currentPage || 1;
-      await this.updateProducts();
-    },
     async updateProducts() {
       let builder = Product.page(this.currentPage).limit(this.perPage);
       if (this.searchText) {
@@ -56,9 +45,6 @@ export default {
       this.items = response.data;
       this.totalPages = response.meta.total_pages;
       this.totalItems = response.meta.total;
-    },
-    onCategoryChange() {
-      // console.log("hello");
     }
   },
   async mounted() {
@@ -66,6 +52,11 @@ export default {
   },
   components: {
     ProductCardComponent
+  },
+  watch: {
+    currentPage() {
+      this.updateProducts();
+    }
   }
 };
 </script>
