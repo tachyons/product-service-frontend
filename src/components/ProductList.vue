@@ -16,7 +16,7 @@
         </select>
         </div>
         <div id="product_list">
-            <ProductComponent v-for="(product,index) in items" :product="product" v-bind:key="index" />
+            <ProductCardComponent v-for="(product,index) in items" :product="product" v-bind:key="index" />
         </div>
         <b-pagination size="md" :total-rows="totalItems" v-model="currentPage" :per-page="perPage" v-on:change="updatePage">
         </b-pagination>
@@ -24,9 +24,9 @@
 </template>
 <script>
 import Product from "../models/Product.js";
-import ProductComponent from "@/components/Product.vue";
+import ProductCardComponent from "@/components/ProductCard.vue";
 export default {
-  name: "Products",
+  name: "ProductListComponent",
   data: () => {
     return {
       items: [],
@@ -69,7 +69,7 @@ export default {
     this.updateProducts();
   },
   components: {
-    ProductComponent
+    ProductCardComponent
   }
 };
 </script>
