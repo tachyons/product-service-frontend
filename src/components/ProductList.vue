@@ -8,6 +8,8 @@
           <option value=""></option>
           <option value="price">price</option>
         </select>
+        <label for="">Categories</label>
+        <multiselect v-model="selectedCategories" :options="categories" :multiple="true" ></multiselect>
         </div>
         <div id="product_list">
             <ProductCardComponent v-for="(product,index) in items" :product="product" v-bind:key="index" />
@@ -29,7 +31,9 @@ export default {
       totalItems: 6,
       totalPages: 1,
       searchText: null,
-      sortBy: null
+      sortBy: null,
+      categories: ["one", "two", "three", "four"],
+      selectedCategories: []
     };
   },
   methods: {
@@ -40,6 +44,9 @@ export default {
       }
       if (this.sortBy) {
         builder = builder.orderBy(this.sortBy);
+      }
+      if(this.selectedCategories && this.selectedCategories.length != 0) {
+        builder.whereIn('category', this.selectedCategories)
       }
       let response = await builder.get();
       this.items = response.data;
@@ -55,6 +62,9 @@ export default {
   },
   watch: {
     currentPage() {
+      this.updateProducts();
+    },
+    selectedCategories() {
       this.updateProducts();
     }
   }

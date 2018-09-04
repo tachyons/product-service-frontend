@@ -8,9 +8,10 @@ import loginChecker from "./lib/loginChecker";
 import { PaginationNav } from "bootstrap-vue/es/components";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import vSelect from "vue-select";
+import "vue-multiselect/dist/vue-multiselect.min.css"
+import Multiselect from "vue-multiselect";
 
-Vue.component("v-select", vSelect);
+Vue.component("multiselect", Multiselect);
 
 Vue.use(PaginationNav);
 
