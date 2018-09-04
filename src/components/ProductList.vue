@@ -35,34 +35,30 @@ export default {
       totalItems: 6,
       totalPages: 1,
       searchText: null,
-      sortBy: null,
+      sortBy: null
     };
   },
   methods: {
     getProducts: () => {},
-    async updatePage(currentPage){
+    async updatePage(currentPage) {
       this.currentPage = currentPage || 1;
-      await this.updateProducts()
+      await this.updateProducts();
     },
     async updateProducts() {
-      let builder = Product.page(this.currentPage)
-       .limit(this.perPage)
-      if(this.searchText) {
-        builder = builder.where('query', this.searchText)
+      let builder = Product.page(this.currentPage).limit(this.perPage);
+      if (this.searchText) {
+        builder = builder.where("query", this.searchText);
       }
-      if(this.sortBy) {
-        builder = builder.orderBy(this.sortBy)
+      if (this.sortBy) {
+        builder = builder.orderBy(this.sortBy);
       }
-      let response = await builder.get()
+      let response = await builder.get();
       this.items = response.data;
       this.totalPages = response.meta.total_pages;
       this.totalItems = response.meta.total;
     },
     onCategoryChange() {
-      console.log("hello")
-    },
-    onCategoryChange(){
-      console.log("searching")
+      // console.log("hello");
     }
   },
   async mounted() {

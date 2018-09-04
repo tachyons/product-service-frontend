@@ -18,8 +18,11 @@ export default {
     product: Object
   },
   computed: {
-    placeHolderImage(){
-      return ("https://dummyimage.com/75x225/d433d4/0000.png&text=" + this.product.attributes.name)
+    placeHolderImage() {
+      return (
+        "https://dummyimage.com/75x225/d433d4/0000.png&text=" +
+        this.product.attributes.name
+      );
     }
   }
 };
@@ -40,8 +43,6 @@ export default {
   margin: 0 auto;
   width: 75px;
   margin-top: 40px;
-}
-.item_price {
 }
 .item_name {
   font-weight: bold;
